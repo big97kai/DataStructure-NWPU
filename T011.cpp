@@ -96,20 +96,19 @@ int main(void)
 
     int size,number;
     scanf("%d %d",&size,&number);
-    int list[size];
+    int a[size+1];
 
-    for(int i=0;i<size;i++)
-        scanf("%d",&list[i]);
+    for(int i=1;i<size+1;i++)
+        scanf("%d",&a[i]);
     int temp;
     for(int i=0;i<number;i++){
-        
-        temp = list[0]; //保存第一个
-        for(int j=0; j<size-1; j++)
-            list[j]=list[j+1];  //每个想向后面进行交换
-        list[size-1]=temp; //最后一个方第一个
+        temp=a[size];  //保留最后一个
+        for(int j=size;j>1;j--)
+            a[j]=a[j-1]; //一个一个提前
+        a[1]=temp;      //第一个方最后一个
     }
-    for(int i=0; i<size; i++)
-        printf("%d ",list[i]);
+    for(int i=1;i<size+1;i++)
+        printf("%d ",a[i]);
     return 0;
 
 }

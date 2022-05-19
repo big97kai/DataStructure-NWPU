@@ -101,12 +101,12 @@ void addMatrix(Matrix *p1, Matrix *p2, Matrix *p3)
 }
 int main()
 {
-    int mu, nu, tu1, tu2;
-    cin >> mu >> nu >> tu1 >> tu2;
+    int tu1, tu2;
+    cin >> tu1 >> tu2;
 
-    Matrix *p1 = initMatrix(mu, nu);
-    Matrix *p2 = initMatrix(mu, nu);
-    Matrix *p3 = initMatrix(mu, nu);
+    Matrix *p1 = initMatrix(10, 10);
+    Matrix *p2 = initMatrix(10, 10);
+    Matrix *p3 = initMatrix(10, 10);
 
     int i, j, k;
     for (int m = 0; m < tu1; m++)

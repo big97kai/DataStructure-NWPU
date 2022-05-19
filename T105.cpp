@@ -8,75 +8,53 @@
 
 using namespace std;
 
-typedef struct OLNode
-{
-    int i, j;
-    int elem;
-    struct OLNode *right, *down;
-} OLNode, *OLink;
+typedef enum {atom, list} ElemTag;
 
-typedef struct CrossList
+typedef struct GLNode
 {
-    OLink *rHead;
-    OLink *cHead;
-    int mu, nu, tu;
-} CrossList;
-
-void output(CrossList *p)
-{
-
-    OLink ptemp;
-    for (int i = 0; i < p->mu; i++)
+    ElemTag tag;
+    union 
     {
-        ptemp = p->rHead[i];
-
-        if (ptemp == NULL)
+        char data;
+        struct 
         {
-            continue;
-        }
-        while (ptemp != NULL)
-        {
-            printf("%d %d %d\n",
-                   ptemp->i,
-                   ptemp->j,
-                   ptemp->elem);
+            struct GLNode *head, *tail;
+        }ptr;
+    };
+} *GList;
 
-            ptemp = ptemp->right;
+typedef struct GLNode2
+{
+    ElemTag tag;
+    union {
+        int data; 
+        struct GLNode2 *head; 
+    }atom_hp;
+    struct GLNode2 *tail;
+
+}GLNode2, *GList2;
+
+
+void initGList1(GList list, char* input, int len)
+{
+    for(int i=0; i<len; i++)
+    {
+        if(input[i] == '(')
+        {
+            
         }
     }
+    list->tag = 1;
+    list->ptr = NULL;
 }
 
-CrossList *initMatrix(int mu, int nu)
+void initGList2(GList2 list)
 {
-    CrossList *p = (CrossList *)malloc(sizeof(CrossList));
-    assert(p != NULL);
-
-    OLink *rHead = (OLink *)malloc(mu * sizeof(OLink));
-    assert(rHead != NULL);
-
-    OLink *cHead = (OLink *)malloc(nu * sizeof(OLink));
-    assert(cHead != NULL);
-
-    p->mu = mu;
-    p->nu = nu;
-    p->tu = 0;
-    p->rHead = rHead;
-    p->cHead = cHead;
-
-    for (int i = 0; i < mu; i++)
-    {
-        p->rHead[i] = NULL;
-    }
-
-    for (int i = 0; i < nu; i++)
-    {
-        p->cHead[i] = NULL;
-    }
-
-    return p;
+    list->tag = 1;
+    list->ptr = NULL;
 }
 
-void inputMatrix(int i, int j, int k, CrossList *p)
+void inputList(int i, int j, int k, CrossList *p)
 {
     OLink pt = (OLink)malloc(sizeof(OLNode));
 
@@ -84,10 +62,9 @@ void inputMatrix(int i, int j, int k, CrossList *p)
     pt->i = i;
     pt->j = j;
     pt->elem = k;
-
+    
     if (p->rHead[i] == NULL || p->rHead[i]->j > j)
     {
-
         pt->right = p->rHead[i];
         p->rHead[i] = pt;
     }
@@ -135,6 +112,30 @@ void inputMatrix(int i, int j, int k, CrossList *p)
 
     p->tu++;
 }
+void output(CrossList *p)
+{
+
+    OLink ptemp;
+    for (int i = 0; i < p->mu; i++)
+    {
+        ptemp = p->rHead[i];
+
+        if (ptemp == NULL)
+        {
+            continue;
+        }
+        while (ptemp != NULL)
+        {
+            printf("%d %d %d\n",
+                   ptemp->i,
+                   ptemp->j,
+                   ptemp->elem);
+
+            ptemp = ptemp->right;
+        }
+    }
+}
+
 
 void addMatrix(CrossList *p1, CrossList *p2, CrossList *p3)
 {
@@ -195,54 +196,9 @@ void addMatrix(CrossList *p1, CrossList *p2, CrossList *p3)
 
 int main()
 {
-    int mu, nu, tu1, tu2;
-    scanf("%d%d%d%d", &mu, &nu, &tu1, &tu2); 
-/*     mu = 3;
-    nu = 4;
-    tu1 = 3;
-    tu2 = 2; */
+    char str[MAXNUM];
+    cin >> str;
 
-    CrossList *p1 = initMatrix(mu, nu);
-    CrossList *p2 = initMatrix(mu, nu);
-    CrossList *p3 = initMatrix(mu, nu);
-
-    int i, j, k;
-
-/*     i = 1;
-    j = 1;
-    k = 1;
-    inputMatrix(i, j, k, p1);
-
-    i = 1;
-    j = 3;
-    k = 1;
-    inputMatrix(i, j, k, p1);
-
-    i = 2;
-    j = 2;
-    k = 2;
-    inputMatrix(i, j, k, p1);
-
-    i = 1;
-    j = 2;
-    k = 1;
-    inputMatrix(i, j, k, p2);
-
-    i = 2;
-    j = 2;
-    k = 3;
-    inputMatrix(i, j, k, p2); */
-    for (int m = 0; m < tu1; m++)
-    {
-        scanf("%d%d%d", &i, &j, &k);
-        inputMatrix(i, j, k, p1);
-    }
-
-    for (int m = 0; m < tu2; m++)
-    {
-        scanf("%d%d%d", &i, &j, &k);
-        inputMatrix(i, j, k, p2);
-    }
 
     addMatrix(p1, p2, p3);
 
