@@ -51,7 +51,7 @@ int find_smallest(int *nearest_edge, int size, int *already_have)
 
 void renew(PEdge edge, int *nearest_edge, int *already_have, int size, int node, int neighbour)
 {
-    if (already_have[node] == 1 || node == neighbour)
+    if (already_have[neighbour] == 1 || node == neighbour)
     {
         return;
     }
